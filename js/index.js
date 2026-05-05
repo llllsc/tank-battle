@@ -506,6 +506,7 @@ else if (level == 12) {
     tank0.life = 4;
     tank0.wholeLife = 4;
     tank0.flag = 0;
+    tank0.speed = 10; 
     document.querySelector('.tank-body').className += " tank0";
     tankArray.push(tank0);
     var a = new Tank(600, 0, 4);
