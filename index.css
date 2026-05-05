@@ -1,0 +1,664 @@
+/* ============================================
+   坦克大战 - 暗黑军事主题样式
+   ============================================ */
+
+/* --- 基础重置 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: #063036;
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(0, 200, 200, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(0, 180, 210, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(0, 120, 140, 0.15) 0%, transparent 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* --- 游戏弹窗遮罩 --- */
+.game-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.25s ease;
+}
+
+.overlay-card {
+    background: linear-gradient(135deg, #0d262e 0%, #163840 100%);
+    border: 2px solid #2a5a62;
+    border-radius: 16px;
+    padding: 40px 50px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0, 210, 220, 0.1);
+    animation: slideUp 0.35s ease;
+    min-width: 320px;
+}
+
+.overlay-icon {
+    font-size: 52px;
+    margin-bottom: 12px;
+}
+
+.overlay-title {
+    font-size: 26px;
+    color: #ffb800;
+    margin-bottom: 10px;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+.overlay-message {
+    font-size: 15px;
+    color: #aab;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.overlay-btn {
+    background: linear-gradient(180deg, #ffb800 0%, #e09a00 100%);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 50px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 184, 0, 0.3);
+}
+
+.overlay-btn:hover {
+    background: linear-gradient(180deg, #ffc940 0%, #ffb800 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(255, 184, 0, 0.45);
+}
+
+.overlay-btn:active {
+    transform: scale(0.96);
+}
+
+/* --- 主容器 --- */
+.game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+/* --- 顶部标题栏 --- */
+.game-header {
+    background: linear-gradient(180deg, #0d262e 0%, #123038 100%);
+    border: 1px solid #1e5058;
+    border-radius: 12px;
+    padding: 10px 28px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+}
+
+.game-title {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #ffb800;
+    text-shadow: 0 0 20px rgba(255, 184, 0, 0.4), 0 2px 4px rgba(0,0,0,0.5);
+    white-space: nowrap;
+}
+
+.title-icon {
+    display: inline-block;
+    font-size: 20px;
+    color: #ccc;
+    margin: 0 4px;
+}
+
+.header-stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #889;
+}
+
+.stat-label {
+    color: #667;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    color: #dde;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+/* 生命值 - 红心显示 */
+.hearts-display {
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1;
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.4));
+    white-space: nowrap;
+}
+
+.hearts-display .heart-lost {
+    opacity: 0.3;
+    filter: grayscale(1);
+}
+
+.hearts-display .heart-num {
+    font-weight: 900;
+    color: #ff5252;
+    font-size: 14px;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+/* 音效开关 */
+.sound-toggle {
+    background: none;
+    border: 1px solid #1e5058;
+    border-radius: 8px;
+    color: #aab;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: all 0.2s;
+    width: auto;
+    height: auto;
+}
+
+.sound-toggle:hover {
+    border-color: #ffb800;
+    color: #ffb800;
+}
+
+.sound-toggle.muted {
+    color: #555;
+    border-color: #333;
+}
+
+/* --- 游戏主体 --- */
+.game-main {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+}
+
+/* --- 地图外框 --- */
+.map-outer {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #0d2a32 0%, #163840 100%);
+    border: 3px solid #2a5a62;
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 200, 210, 0.08),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.map-inner {
+    border: 2px solid #1a4550;
+    border-radius: 6px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.map {
+    width: 650px;
+    height: 650px;
+    background: #0a2a30;
+    background-image:
+        linear-gradient(rgba(0, 200, 210, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 210, 0.07) 1px, transparent 1px);
+    background-size: 25px 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- 侧边栏 --- */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 220px;
+    max-width: 240px;
+}
+
+.panel-card {
+    background: linear-gradient(180deg, #0d262e 0%, #123038 100%);
+    border: 1px solid #1e5058;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.panel-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffb800;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+/* 关卡选择网格 */
+.level-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.level-row {
+    display: flex;
+    gap: 5px;
+}
+
+.level-row button {
+    flex: 1;
+    height: 34px;
+    background: linear-gradient(180deg, #123038 0%, #0d262e 100%);
+    border: 1px solid #1e5058;
+    border-radius: 6px;
+    color: #aab;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.level-row button:hover {
+    border-color: #ffb800;
+    color: #ffb800;
+    background: linear-gradient(180deg, #1a4048 0%, #123038 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 184, 0, 0.15);
+}
+
+.level-row button:active {
+    transform: scale(0.94);
+}
+
+.level-row button.completed {
+    border-color: #00c853;
+    color: #69f0ae;
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.2);
+}
+
+.level-row button.completed::after {
+    content: ' \2713';
+    font-size: 10px;
+}
+
+.level-row button.current {
+    border-color: #ffb800;
+    color: #ffb800;
+    box-shadow: 0 0 12px rgba(255, 184, 0, 0.25);
+    animation: glowPulse 2s ease infinite;
+}
+
+/* 操作提示 */
+.controls-hint {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.hint-row {
+    font-size: 12px;
+    color: #778;
+    line-height: 1.6;
+}
+
+.hint-row kbd {
+    display: inline-block;
+    background: #123038;
+    border: 1px solid #1e5058;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    color: #ccd;
+    font-family: inherit;
+    letter-spacing: 1px;
+}
+
+/* 关卡说明 */
+.level-desc {
+    font-size: 12px;
+    color: #778;
+    line-height: 1.6;
+}
+
+/* 重新开始按钮 */
+.restart-btn {
+    width: 100%;
+    height: 42px;
+    background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%);
+    border: 1px solid #e53935;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    box-shadow: 0 3px 12px rgba(211, 47, 47, 0.25);
+}
+
+.restart-btn:hover {
+    background: linear-gradient(180deg, #e53935 0%, #d32f2f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(211, 47, 47, 0.4);
+}
+
+.restart-btn:active {
+    transform: scale(0.96);
+}
+
+/* ============================================
+   游戏内元素样式覆盖
+   ============================================ */
+
+/* 坦克外层容器 — 仅定位，不旋转 */
+.tank {
+    position: absolute;
+    transition: left 0.05s linear, top 0.05s linear;
+}
+
+/* 坦克内层 — 旋转 + 贴图 */
+.tank-body {
+    width: 40px;
+    height: 40px;
+    background: url(./images/tank4.png);
+    background-size: 100%;
+    filter: drop-shadow(0 0 4px rgba(0, 200, 255, 0.5));
+}
+
+/* 我方坦克 */
+.tank-body.tank0 {
+    width: 45px;
+    height: 45px;
+    background: url(./images/tank3.png);
+    background-size: 100%;
+    filter: drop-shadow(0 0 6px rgba(0, 255, 100, 0.6));
+}
+
+/* 敌方坦克 */
+.tank-body.boss {
+    width: 50px;
+    height: 50px;
+    background: url(./images/BadTank1.png);
+    background-size: 100%;
+    filter: drop-shadow(0 0 4px rgba(255, 50, 50, 0.5));
+}
+
+.tank-body.Boss {
+    width: 70px;
+    height: 70px;
+    background: url(./images/boss.png);
+    background-size: 100%;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+}
+
+.tank-body.boss10 {
+    width: 80px;
+    height: 80px;
+    background: url(./images/boss10.png);
+    background-size: 100%;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.7));
+}
+
+.tank-body.boss9 {
+    width: 50px;
+    height: 50px;
+    background: url(./images/boss9.png);
+    background-size: 100%;
+    filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5));
+}
+
+/* 基地 */
+.home {
+    position: absolute;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url('./images/home.png');
+    background-size: 100%;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+    animation: homeGlow 2s ease infinite;
+}
+
+/* 树木 */
+.tree {
+    position: absolute;
+    display: inline-block;
+    z-index: 1000;
+    width: 45px;
+    height: 45px;
+    background: url('./images/tree.jpg');
+    background-size: 100%;
+    opacity: 0.9;
+}
+
+/* 子弹 */
+.bullet {
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #fff 0%, #ffeb3b 50%, #ff9800 100%);
+    position: absolute;
+    display: inline-block;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 235, 59, 0.8), 0 0 16px rgba(255, 152, 0, 0.4);
+}
+
+/* 砖墙 */
+.softWall {
+    background: url('./images/softWall.png');
+    background-size: 100%;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: inline-block;
+    image-rendering: pixelated;
+}
+
+/* 铁墙 */
+.hardWall {
+    background: url('./images/hardWall.png');
+    background-size: 100%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    display: inline-block;
+    filter: brightness(1.1);
+    image-rendering: pixelated;
+}
+
+/* 爆炸 */
+.bomb {
+    background: url('./images/6.gif');
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    z-index: 500;
+    pointer-events: none;
+}
+
+/* ============================================
+   坦克上方血量条 — tank 子元素，自动跟随无需 JS 定位
+   ============================================ */
+.tank-health-bar {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
+    z-index: 200;
+    overflow: hidden;
+    pointer-events: none;
+    display: none; /* 满血时隐藏 */
+}
+
+.tank-health-fill {
+    height: 100%;
+    width: 100%;
+    background: #4ae04a;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.tank-health-fill.danger {
+    background: #e94560;
+}
+
+.tank-health-fill.warning {
+    background: #ffcc00;
+}
+
+
+/* ============================================
+   动画
+   ============================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(255, 184, 0, 0.2); }
+    50% { box-shadow: 0 0 18px rgba(255, 184, 0, 0.45); }
+}
+
+@keyframes homeGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.4)); }
+    50% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7)); }
+}
+
+@keyframes screenShake {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5px, 3px); }
+    20% { transform: translate(4px, -5px); }
+    30% { transform: translate(-3px, 4px); }
+    40% { transform: translate(5px, -2px); }
+    50% { transform: translate(-4px, 5px); }
+    60% { transform: translate(2px, -4px); }
+    70% { transform: translate(-5px, -2px); }
+    80% { transform: translate(3px, 4px); }
+    90% { transform: translate(-2px, -5px); }
+}
+
+.map.shake {
+    animation: screenShake 0.45s ease-out;
+}
+
+/* ============================================
+   响应式适配
+   ============================================ */
+@media (max-width: 950px) {
+    .game-main {
+        flex-direction: column;
+        align-items: center;
+    }
+    .map {
+        width: 480px;
+        height: 480px;
+    }
+    .side-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: auto;
+        max-width: 480px;
+        gap: 8px;
+    }
+    .panel-card {
+        flex: 1;
+        min-width: 140px;
+    }
+    .restart-btn {
+        width: auto;
+        flex: 1;
+    }
+    .game-header {
+        padding: 8px 16px;
+        gap: 14px;
+    }
+    .game-title {
+        font-size: 18px;
+        letter-spacing: 3px;
+    }
+    .header-stats {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 520px) {
+    .map {
+        width: 340px;
+        height: 340px;
+    }
+    .map-outer {
+        padding: 6px;
+    }
+    .side-panel {
+        max-width: 340px;
+    }
+    .level-row button {
+        height: 28px;
+        font-size: 12px;
+    }
+    .game-title {
+        font-size: 15px;
+        letter-spacing: 2px;
+    }
+    .header-stats {
+        font-size: 10px;
+    }
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="./index.css" rel="stylesheet" type="text/css">
+    <title>坦克大战</title>
+</head>
+
+<body>
+    <!-- 音效 -->
+    <audio src="./sound/explosion_2.ogg" id="zha"></audio>
+    <audio src="./sound/game_over.ogg" id="over"></audio>
+    <audio src="./sound/bullet_shot.ogg" id="shot"></audio>
+    <audio autoplay="autoplay" preload="auto" src="./sound/stage_start.ogg"></audio>
+
+    <!-- 游戏自定义弹窗 -->
+    <div id="game-overlay" class="game-overlay" style="display:none;">
+        <div class="overlay-card">
+            <div class="overlay-icon" id="overlay-icon">&#9888;</div>
+            <h2 class="overlay-title" id="overlay-title"></h2>
+            <p class="overlay-message" id="overlay-message"></p>
+            <button class="overlay-btn" id="overlay-btn" onclick="window._overlayCallback && window._overlayCallback()">确 定</button>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="game-wrapper">
+        <!-- 顶部标题栏 -->
+        <header class="game-header">
+            <h1 class="game-title">
+                <span class="title-icon">&#9876;</span>
+                坦 克 大 战
+                <span class="title-icon">&#9876;</span>
+            </h1>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">当前关卡</span>
+                    <span class="stat-value now">第 1 关</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">生命值</span>
+                    <span class="hearts-display" id="hearts-display"></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">敌人剩余</span>
+                    <span class="stat-value" id="enemy-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">通关进度</span>
+                    <span class="stat-value" id="max">已通过: 0 关</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">关卡总数</span>
+                    <span class="stat-value" id="all">总共 16 关</span>
+                </div>
+                <button class="sound-toggle" id="sound-toggle" title="音效开关">&#128266;</button>
+            </div>
+        </header>
+
+        <!-- 游戏主体 -->
+        <div class="game-main">
+            <!-- 地图区域 -->
+            <div class="map-outer">
+                <div class="map-inner">
+                    <div class="map"></div>
+                </div>
+            </div>
+
+            <!-- 侧边栏 -->
+            <div class="side-panel" id="left">
+                <div class="panel-card">
+                    <h3 class="panel-title">&#127919; 选择关卡</h3>
+                    <div class="level-grid">
+                        <div id="level1" class="level-row">
+                            <button id="0" onclick="f(0)">1</button>
+                            <button id="1" onclick="f(1)">2</button>
+                            <button id="2" onclick="f(2)">3</button>
+                            <button id="3" onclick="f(3)">4</button>
+                        </div>
+                        <div id="level2" class="level-row">
+                            <button id="4" onclick="f(4)">5</button>
+                            <button id="5" onclick="f(5)">6</button>
+                            <button id="6" onclick="f(6)">7</button>
+                            <button id="7" onclick="f(7)">8</button>
+                        </div>
+                        <div id="level3" class="level-row">
+                            <button id="8" onclick="f(8)">9</button>
+                            <button id="9" onclick="f(9)">10</button>
+                            <button id="10" onclick="f(10)">11</button>
+                            <button id="11" onclick="f(11)">12</button>
+                        </div>
+                        <div id="level4" class="level-row">
+                            <button id="12" onclick="f(12)">13</button>
+                            <button id="13" onclick="f(13)">14</button>
+                            <button id="14" onclick="f(14)">15</button>
+                            <button id="15" onclick="f(15)">16</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-card">
+                    <h3 class="panel-title">&#127918; 操作说明</h3>
+                    <div class="controls-hint">
+                        <div class="hint-row"><kbd>&uarr; &darr; &larr; &rarr;</kbd> 移动坦克</div>
+                        <div class="hint-row"><kbd>空格键</kbd> 发射子弹</div>
+                    </div>
+                </div>
+                <div class="panel-card">
+                    <h3 class="panel-title">&#128220; 关卡说明</h3>
+                    <div class="level-desc" id="level-desc">标准战斗</div>
+                </div>
+                <button id="restart" class="restart-btn">&#8634; 重新开始</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内联脚本：初始化与关卡跳转 -->
+    <script>
+        window.onload = function () {
+            document.getElementsByClassName('now')[0].innerHTML = `第 ${parseInt(getQueryVariable('level')) + 1 || 1} 关`;
+            document.getElementById('restart').addEventListener('click', function () {
+                window.location.href = window.location.pathname;
+            });
+            updateLevelDescription();
+        }
+        function f(a) {
+            window.location.href = "index.html?level=" + a + "&Level=" + parseInt(Level[0]) + "," + parseInt(Level[1]) + "," + parseInt(Level[2]) + "," + parseInt(Level[3]) + "," + parseInt(Level[4]) + "," + parseInt(Level[5]) + "," + parseInt(Level[6]) + "," + parseInt(Level[7]) + "," + parseInt(Level[8]) + "," + parseInt(Level[9]) + "," + parseInt(Level[10]) + "," + parseInt(Level[11]) + "," + parseInt(Level[12]) + "," + parseInt(Level[13]) + "," + parseInt(Level[14]) + "," + parseInt(Level[15]);
+        }
+    </script>
+    <script src="./js/bullet.js"></script>
+    <script src="./js/tree.js"></script>
+    <script src="./js/map.js"></script>
+    <script src="./js/tank.js"></script>
+    <script src="./js/softWall.js"></script>
+    <script src="./js/home.js"></script>
+    <script src="./js/hardWall.js"></script>
+    <script src="./js/mytank.js"></script>
+    <script src="./js/bossTank.js"></script>
+    <script src="./js/boss.js"></script>
+    <script src="./js/bomb.js"></script>
+    <script src="./js/boss10.js"></script>
+    <script src="./js/boss9.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
