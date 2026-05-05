@@ -50,11 +50,29 @@ html, body {
     box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0, 210, 220, 0.1);
     animation: slideUp 0.35s ease;
     min-width: 320px;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* 胜利状态 */
+.overlay-card.victory {
+    border-color: #ffb800;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(255, 184, 0, 0.35), 0 0 120px rgba(255, 184, 0, 0.15);
+}
+
+.overlay-card.victory .overlay-title {
+    animation: titleGlow 0.8s ease-in-out infinite alternate;
+}
+
+/* 失败状态 */
+.overlay-card.defeat {
+    border-color: #e94560;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(233, 69, 96, 0.3);
 }
 
 .overlay-icon {
     font-size: 52px;
     margin-bottom: 12px;
+    animation: iconBounce 0.6s ease;
 }
 
 .overlay-title {
@@ -66,10 +84,11 @@ html, body {
 }
 
 .overlay-message {
-    font-size: 15px;
-    color: #aab;
+    font-size: 17px;
+    color: #ccd;
     margin-bottom: 24px;
     line-height: 1.6;
+    letter-spacing: 2px;
 }
 
 .overlay-btn {
@@ -565,6 +584,18 @@ html, body {
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(30px) scale(0.95); }
     to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes iconBounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+@keyframes titleGlow {
+    from { text-shadow: 0 0 10px rgba(255, 184, 0, 0.4); }
+    to { text-shadow: 0 0 30px rgba(255, 184, 0, 0.9), 0 0 60px rgba(255, 184, 0, 0.4); }
 }
 
 @keyframes pulse {

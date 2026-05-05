@@ -17,7 +17,7 @@ class home {
         document.getElementById('over').play();
         showGameMessage('战败', '基地被摧毁了！', '&#128128;', function () {
             location.reload();
-        });
+        }, 'defeat');
     }
 }
 //"老巢"类，用于生成和设置"老巢"对象

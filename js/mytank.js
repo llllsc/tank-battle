@@ -16,7 +16,7 @@ class Mytank extends Tank{
         document.getElementById('over').play();
         showGameMessage('战败', '你的坦克被摧毁了！', '&#128128;', function () {
             location.reload();
-        });
+        }, 'defeat');
     }
 }
 //"自身坦克"类，生成和设置自己的坦克对象。

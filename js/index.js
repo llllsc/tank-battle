@@ -711,7 +711,7 @@ else if (level == 13) {
             document.getElementById('over').play();
             showGameMessage('战败', '你的子弹击中了错误的目标！', '&#128128;', function () {
                 location.reload();
-            });
+            }, 'defeat');
         }
     }, 0);
 
@@ -967,34 +967,43 @@ else if (level == 15) {
     arr.push(new softWall(8 * 30, 16 * 30));
 }
 //用于获胜并跳转下一关
+var _victoryShown = false;
 setInterval(() => {
-    //此if内为一般关卡的判胜条件。
+    if (_victoryShown) return;
+    //一般关卡的判胜条件
     if (level != 11 && level != 14 && level != 15 && tankArray.length == 1 && tankArray[0].flag == 0) {
-          Level[level]=1;//获胜后的关卡对应Level数组元素的变量值赋1。
-        window.location.href = `${window.location.pathname}?level=${parseInt(level) + 1}&Level=${parseInt(Level[0])},${parseInt(Level[1])},${parseInt(Level[2])},${parseInt(Level[3])},${parseInt(Level[4])},${parseInt(Level[5])},${parseInt(Level[6])},${parseInt(Level[7])},${parseInt(Level[8])},${parseInt(Level[9])},${parseInt(Level[10])},${parseInt(Level[11])},${parseInt(Level[12])},${parseInt(Level[13])},${parseInt(Level[14])},${parseInt(Level[15])}`;//跳转到下一关并携带Level数组。
-    
-
-    }   
-   
-    else if (level == 11 && bulletArray.length == 0) //第12关的判胜条件，接住所有子弹。
-     {
-        showGameMessage('恭喜通关！', '你已经通过了全部 16 关！\n你是真正的坦克指挥官！', '&#127942;', function () {
-            window.location.href = window.location.pathname + '?level=0&Level=' + Level.join(',');
-        });
+        _victoryShown = true;
+        Level[level] = 1;
+        var nextLevel = parseInt(level) + 1;
+        showGameMessage('胜利！', '第 ' + (nextLevel) + ' 关', '&#11088;', function () {
+            window.location.href = window.location.pathname + '?level=' + nextLevel + '&Level=' + Level.join(',');
+        }, 'victory');
     }
-    
+    //第12关判胜：接住所有子弹
+    else if (level == 11 && bulletArray.length == 0) {
+        _victoryShown = true;
+        Level[level] = 1;
+        var nextLevel = parseInt(level) + 1;
+        showGameMessage('胜利！', '第 ' + (nextLevel) + ' 关', '&#11088;', function () {
+            window.location.href = window.location.pathname + '?level=' + nextLevel + '&Level=' + Level.join(',');
+        }, 'victory');
+    }
+    //第15关判胜：消灭所有敌人
     else if (level == 14 && allNum == 36 && tankArray.length == 1) {
-        showGameMessage('恭喜通关！', '你已经通过了全部 16 关！\n你是真正的坦克指挥官！', '&#127942;', function () {
-            window.location.href = window.location.pathname + '?level=0&Level=' + Level.join(',');
-        });     
-
+        _victoryShown = true;
+        Level[level] = 1;
+        var nextLevel = parseInt(level) + 1;
+        showGameMessage('胜利！', '第 ' + (nextLevel) + ' 关', '&#11088;', function () {
+            window.location.href = window.location.pathname + '?level=' + nextLevel + '&Level=' + Level.join(',');
+        }, 'victory');
     }
-    else if (level == 15 && arr.length == 0 && tank0.f == 0) {//最后一关赢法为消灭障碍。tank0的f属性用于防止多次弹出"恭喜过关！！！！"。
+    //第16关（最后一关）判胜：清除所有障碍
+    else if (level == 15 && arr.length == 0 && tank0.f == 0) {
+        _victoryShown = true;
         tank0.f = 1;
         showGameMessage('恭喜通关！', '你已经通过了全部 16 关！\n你是真正的坦克指挥官！', '&#127942;', function () {
             window.location.href = window.location.pathname + '?level=0&Level=' + Level.join(',');
         });
-
     }
 }, 0);
 var direction = {

@@ -5,11 +5,15 @@
 // 覆盖原生 alert，使用自定义游戏弹窗
 window._overlayCallback = null;
 
-function showGameMessage(title, message, icon, callback) {
+function showGameMessage(title, message, icon, callback, type) {
     var overlay = document.getElementById('game-overlay');
+    var card = overlay.querySelector('.overlay-card');
     document.getElementById('overlay-title').textContent = title;
     document.getElementById('overlay-message').textContent = message;
     document.getElementById('overlay-icon').innerHTML = icon || '&#9888;';
+    card.classList.remove('victory', 'defeat');
+    if (type === 'victory') card.classList.add('victory');
+    if (type === 'defeat') card.classList.add('defeat');
     overlay.style.display = 'flex';
     window._overlayCallback = function () {
         overlay.style.display = 'none';
